@@ -12,13 +12,6 @@ from .models import School, SClass, Student, Teacher, Admin
 from .forms import AdminRegistrationForm, AdminLoginForm, StudentForm, TeacherForm, SClassForm
 
 
-def api_docs_view(request):
-    """
-    API documentation view
-    """
-    return render(request, 'api_docs.html')
-
-
 def about_view(request):
     """
     About page view
@@ -28,28 +21,16 @@ def about_view(request):
 
 def home_view(request):
     """
-    Home page view with dashboard statistics
+    Home page view
     """
     context = {}
     if request.user.is_authenticated:
         try:
             school = School.objects.get(admin=request.user)
             context['school_name'] = school.name
-            
-            # Get statistics
-            context['total_classes'] = SClass.objects.filter(school=school).count()
-            context['total_students'] = Student.objects.filter(admin=request.user).count()
-            context['total_teachers'] = Teacher.objects.filter(admin=request.user).count()
-            context['total_schools'] = School.objects.filter(admin=request.user).count()
-            
         except School.DoesNotExist:
             context['school_name'] = request.user.school_name
-            context['total_classes'] = 0
-            context['total_students'] = Student.objects.filter(admin=request.user).count()
-            context['total_teachers'] = Teacher.objects.filter(admin=request.user).count()
-            context['total_schools'] = 0
-    
-    return render(request, 'index.html', context)
+    return render(request, 'schools/index.html', context)
 
 
 def register_view(request):
@@ -235,26 +216,3 @@ class TeacherDeleteView(LoginRequiredMixin, DeleteView):
     
     def get_queryset(self):
         return Teacher.objects.filter(admin=self.request.user)
-
-
-class ClassCreateView(LoginRequiredMixin, CreateView):
-    """
-    Create view for classes
-    """
-    model = SClass
-    template_name = 'schools/class_form.html'
-    fields = ['name']
-    success_url = reverse_lazy('schools:class_list')
-    
-    def form_valid(self, form):
-        try:
-            school = School.objects.get(admin=self.request.user)
-            form.instance.school = school
-        except School.DoesNotExist:
-            # Create a school if none exists
-            school = School.objects.create(
-                name=self.request.user.school_name,
-                admin=self.request.user
-            )
-            form.instance.school = school
-        return super().form_valid(form)

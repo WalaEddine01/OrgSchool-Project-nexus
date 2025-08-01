@@ -1,0 +1,43 @@
+{% extends 'schools/base.html' %}
+
+{% block title %}About - OrgSchool{% endblock %}
+
+{% block content %}
+<div class="hero-section text-center py-5">
+    <div class="container">
+        <h1 class="display-4">Welcome to OrgSchool</h1>
+        <p class="lead">The modern school management system</p>
+        <img src="{% static 'images/OrgSchool_GIF.gif' %}" alt="OrgSchool Animation" class="img-fluid my-4" style="max-width: 400px;">
+        
+        {% if not user.is_authenticated %}
+            <div class="mt-4">
+                <a href="{% url 'schools:register' %}" class="btn btn-primary btn-lg me-3">Get Started</a>
+                <a href="{% url 'schools:login' %}" class="btn btn-outline-primary btn-lg">Login</a>
+            </div>
+        {% else %}
+            <div class="mt-4">
+                <a href="{% url 'schools:home' %}" class="btn btn-primary btn-lg">Go to Dashboard</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="features-section py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 text-center mb-4">
+                <h3>Manage Classes</h3>
+                <p>Organize your school into different classes and manage them efficiently.</p>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <h3>Track Students</h3>
+                <p>Keep detailed records of all students, their ages, and class assignments.</p>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <h3>Manage Teachers</h3>
+                <p>Assign teachers to classes and maintain comprehensive teacher records.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

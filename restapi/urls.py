@@ -11,7 +11,6 @@ router.register(r'schools', views.SchoolViewSet)
 router.register(r'sclasses', views.SClassViewSet)
 router.register(r'students', views.StudentViewSet)
 router.register(r'teachers', views.TeacherViewSet)
-router.register(r'dashboard', views.DashboardViewSet, basename='dashboard')
 
 urlpatterns = [
     path('v1/', include(router.urls)),

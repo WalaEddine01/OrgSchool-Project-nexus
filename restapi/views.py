@@ -6,7 +6,8 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
-from django.db.models import Count
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 from schools.models import Admin, School, SClass, Student, Teacher
 from .serializers import (
     AdminSerializer, SchoolSerializer, SClassSerializer, 
@@ -17,6 +18,8 @@ from .serializers import (
 class AdminViewSet(viewsets.ReadOnlyModelViewSet):
     """
     ViewSet for Admin model (read-only)
+    
+    Provides read-only access to admin data. Users can only access their own admin information.
     """
     queryset = Admin.objects.all()
     serializer_class = AdminSerializer
@@ -30,6 +33,8 @@ class AdminViewSet(viewsets.ReadOnlyModelViewSet):
 class SchoolViewSet(viewsets.ModelViewSet):
     """
     ViewSet for School model
+    
+    Provides CRUD operations for schools. Users can only manage their own schools.
     """
     queryset = School.objects.all()
     serializer_class = SchoolSerializer
@@ -45,7 +50,10 @@ class SchoolViewSet(viewsets.ModelViewSet):
 
 class SClassViewSet(viewsets.ModelViewSet):
     """
-    ViewSet for SClass model
+    ViewSet for SClass (School Class) model
+    
+    Provides CRUD operations for school classes. Users can only manage classes 
+    from their own schools. Includes custom actions to get students and teachers.
     """
     queryset = SClass.objects.all()
     serializer_class = SClassSerializer
@@ -60,6 +68,10 @@ class SClassViewSet(viewsets.ModelViewSet):
         school = School.objects.get(admin=self.request.user)
         serializer.save(school=school)
     
+    @swagger_auto_schema(
+        operation_description="Get all students in this class",
+        responses={200: StudentSerializer(many=True)}
+    )
     @action(detail=True, methods=['get'])
     def students(self, request, pk=None):
         """
@@ -70,6 +82,10 @@ class SClassViewSet(viewsets.ModelViewSet):
         serializer = StudentSerializer(students, many=True)
         return Response(serializer.data)
     
+    @swagger_auto_schema(
+        operation_description="Get all teachers in this class",
+        responses={200: TeacherSerializer(many=True)}
+    )
     @action(detail=True, methods=['get'])
     def teachers(self, request, pk=None):
         """
@@ -84,6 +100,8 @@ class SClassViewSet(viewsets.ModelViewSet):
 class StudentViewSet(viewsets.ModelViewSet):
     """
     ViewSet for Student model
+    
+    Provides CRUD operations for students. Users can only manage their own students.
     """
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
@@ -100,6 +118,8 @@ class StudentViewSet(viewsets.ModelViewSet):
 class TeacherViewSet(viewsets.ModelViewSet):
     """
     ViewSet for Teacher model
+    
+    Provides CRUD operations for teachers. Users can only manage their own teachers.
     """
     queryset = Teacher.objects.all()
     serializer_class = TeacherSerializer
@@ -111,56 +131,3 @@ class TeacherViewSet(viewsets.ModelViewSet):
     
     def perform_create(self, serializer):
         serializer.save(admin=self.request.user)
-
-
-class DashboardViewSet(viewsets.ViewSet):
-    """
-    ViewSet for dashboard statistics and data
-    """
-    permission_classes = [IsAuthenticated]
-    
-    @action(detail=False, methods=['get'])
-    def stats(self, request):
-        """
-        Get dashboard statistics
-        """
-        user = request.user
-        
-        # Get counts for user's data
-        schools_count = School.objects.filter(admin=user).count()
-        classes_count = SClass.objects.filter(school__admin=user).count()
-        students_count = Student.objects.filter(admin=user).count()
-        teachers_count = Teacher.objects.filter(admin=user).count()
-        
-        # Get detailed class statistics
-        classes_with_counts = SClass.objects.filter(school__admin=user).annotate(
-            student_count=Count('students'),
-            teacher_count=Count('teachers')
-        ).values('name', 'student_count', 'teacher_count')
-        
-        return Response({
-            'total_schools': schools_count,
-            'total_classes': classes_count,
-            'total_students': students_count,
-            'total_teachers': teachers_count,
-            'class_details': list(classes_with_counts)
-        })
-    
-    @action(detail=False, methods=['get'])
-    def recent_activity(self, request):
-        """
-        Get recent activity data
-        """
-        user = request.user
-        
-        # Get recently added students and teachers
-        recent_students = Student.objects.filter(admin=user).order_by('-created_at')[:5]
-        recent_teachers = Teacher.objects.filter(admin=user).order_by('-created_at')[:5]
-        
-        student_data = StudentSerializer(recent_students, many=True).data
-        teacher_data = TeacherSerializer(recent_teachers, many=True).data
-        
-        return Response({
-            'recent_students': student_data,
-            'recent_teachers': teacher_data
-        })

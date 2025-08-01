@@ -1,0 +1,121 @@
+/* OrgSchool Modern UI Styles - Original Design */
+
+body {
+    font-size: 12px;
+    font-family: sans-serif;
+    background: #2c3e50;
+    color: #fff;
+}
+
+/* Navigation styles */
+nav.wal {
+    position: relative;
+    margin-top: 20px;
+    width: 590px;
+    height: 50px;
+    background-color: #00253f;
+    border-radius: 8px;
+    font-size: 0;
+    box-shadow: 0 0 50px -10px rgba(0, 0, 0, 0.4);
+}
+
+nav a {
+    line-height: 50px;
+    height: 100%;
+    font-size: 15px;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    text-decoration: none;
+    text-transform: uppercase;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+}
+
+nav .animation {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    z-index: 0;
+    transition: all .5s ease 0s;
+    border-radius: 8px;
+}
+
+a:nth-child(1) { width: 140px; }
+a:nth-child(2) { width: 140px; }
+a:nth-child(3) { width: 140px; }
+a:nth-child(4) { width: 140px; }
+
+nav .start-home, a:nth-child(1):hover~.animation {
+    width: 130px;
+    left: 0;
+    background-color: #1abc9c;
+}
+
+nav .start-about, a:nth-child(2):hover~.animation {
+    width: 180px;
+    left: 120px;
+    background-color: #e74c3c;
+}
+
+nav .start-blog, a:nth-child(3):hover~.animation {
+    width: 150px;
+    left: 280px;
+    background-color: #3498db;
+}
+
+nav .start-portefolio, a:nth-child(4):hover~.animation {
+    width: 180px;
+    left: 410px;
+    background-color: #9b59b6;
+}
+
+/* Leaderboard styles */
+.leaderboard {
+    max-width: 760px;
+    width: 100%;
+    border-radius: 12px;
+    margin-bottom: 25%;
+}
+
+.leaderboard header {
+    --start: 15%;
+    height: 100px;
+    background-image: repeating-radial-gradient(circle at var(--start), transparent 0%, transparent 10%, rgba(0, 34, 157, 0.33) 10%, rgba(0, 26, 118, 0.33) 17%), linear-gradient(to right, #00253f, #00253f);
+    color: #fff;
+    position: relative;
+    border-radius: 12px 12px 0 0;
+    overflow: hidden;
+}
+
+.leaderboard header .leaderboard__title {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    left: 25%;
+    transform: translateY(-50%);
+    text-transform: uppercase;
+    color: #fff;
+    margin: 0;
+}
+
+.leaderboard header .leaderboard__title span {
+    display: block;
+}
+
+.leaderboard header .leaderboard__title--top {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 6.5px;
+}
+
+.leaderboard header .leaderboard__title--bottom {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 3.55px;
+    opacity: 0.65;
+    transform: translateY(-2px);
+}
+
+/* ...existing code... */

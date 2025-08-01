@@ -1,0 +1,72 @@
+{% extends 'schools/base.html' %}
+{% load static %}
+
+{% block title %}Home - OrgSchool{% endblock %}
+
+{% block content %}
+<nav class="wal">
+    <a href="{% url 'schools:sclass1' %}">Class 01</a>
+    <a href="{% url 'schools:sclass2' %}">Class 02</a>
+    <a href="{% url 'schools:sclass3' %}">Class 03</a>
+    <a href="{% url 'schools:sclass4' %}">Class 04</a>
+    <div class="animation start-home"></div>
+</nav>
+<br>
+<br>
+<article class="leaderboard">
+    <header>
+        {% if user.is_authenticated %}
+            <h1 class="leaderboard__title">
+                <span class="leaderboard__title--top">Welcome to {{ school_name|default:user.school_name }}'s school</span>
+                <span class="leaderboard__title--bottom">with OrgSchool</span>
+            </h1>
+        {% else %}
+            <h1 class="leaderboard__title">
+                <span class="leaderboard__title--top">Welcome to Your school</span>
+                <span class="leaderboard__title--bottom">with OrgSchool</span>
+            </h1>
+        {% endif %}
+    </header>
+</article>
+
+{% if user.is_authenticated %}
+<div class="row mt-5">
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Classes</h5>
+                <p class="card-text">Manage your school classes</p>
+                <a href="{% url 'schools:class_list' %}" class="btn btn-primary">View Classes</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Students</h5>
+                <p class="card-text">Manage student records</p>
+                <a href="{% url 'schools:student_list' %}" class="btn btn-success">View Students</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Teachers</h5>
+                <p class="card-text">Manage teacher records</p>
+                <a href="{% url 'schools:teacher_list' %}" class="btn btn-info">View Teachers</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">API</h5>
+                <p class="card-text">Access REST API</p>
+                <a href="/api/v1/" class="btn btn-warning">View API</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'schools/base.html' %}
+
+{% block title %}Teachers - OrgSchool{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Teachers</h2>
+    <a href="{% url 'schools:teacher_add' %}" class="btn btn-primary">Add Teacher</a>
+</div>
+
+{% if teachers %}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Class</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for teacher in teachers %}
+                    <tr>
+                        <td>{{ teacher.name }}</td>
+                        <td>{{ teacher.sclass.name }}</td>
+                        <td>
+                            <a href="{% url 'schools:teacher_edit' teacher.pk %}" class="btn btn-sm btn-outline-primary">Edit</a>
+                            <a href="{% url 'schools:teacher_delete' teacher.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="text-center py-5">
+        <h4>No teachers found</h4>
+        <p>Start by adding your first teacher.</p>
+        <a href="{% url 'schools:teacher_add' %}" class="btn btn-primary">Add Teacher</a>
+    </div>
+{% endif %}
+{% endblock %}

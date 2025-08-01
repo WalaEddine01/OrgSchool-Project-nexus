@@ -1,0 +1,84 @@
+{% extends 'schools/base.html' %}
+
+{% block title %}{{ sclass.name }} - OrgSchool{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>{{ sclass.name }}</h2>
+    <a href="{% url 'schools:class_list' %}" class="btn btn-secondary">Back to Classes</a>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4>Students ({{ students.count }})</h4>
+            </div>
+            <div class="card-body">
+                {% if students %}
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Age</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for student in students %}
+                                    <tr>
+                                        <td>{{ student.name }}</td>
+                                        <td>{{ student.age }}</td>
+                                        <td>
+                                            <a href="{% url 'schools:student_edit' student.pk %}" class="btn btn-sm btn-outline-primary">Edit</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p>No students in this class yet.</p>
+                {% endif %}
+                <a href="{% url 'schools:student_add' %}" class="btn btn-primary btn-sm">Add Student</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4>Teachers ({{ teachers.count }})</h4>
+            </div>
+            <div class="card-body">
+                {% if teachers %}
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for teacher in teachers %}
+                                    <tr>
+                                        <td>{{ teacher.name }}</td>
+                                        <td>
+                                            <a href="{% url 'schools:teacher_edit' teacher.pk %}" class="btn btn-sm btn-outline-primary">Edit</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p>No teachers assigned to this class yet.</p>
+                {% endif %}
+                <a href="{% url 'schools:teacher_add' %}" class="btn btn-primary btn-sm">Add Teacher</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

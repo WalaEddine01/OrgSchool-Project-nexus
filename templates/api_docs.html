@@ -1,0 +1,290 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}API Documentation - OrgSchool{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="h2 mb-4">
+                <i class="fas fa-code me-2 text-primary"></i>
+                API Documentation
+            </h1>
+            <p class="lead">RESTful API endpoints for OrgSchool integration</p>
+        </div>
+    </div>
+
+    <!-- Authentication -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">Authentication</h3>
+                </div>
+                <div class="card-body">
+                    <p>The API uses session-based authentication. You must be logged in to access protected endpoints.</p>
+                    <div class="bg-light p-3 rounded">
+                        <strong>Base URL:</strong> <code>/api/v1/</code><br>
+                        <strong>Authentication:</strong> Session-based (Django sessions)<br>
+                        <strong>Content-Type:</strong> <code>application/json</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Endpoints -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">API Endpoints</h3>
+                </div>
+                <div class="card-body">
+                    <!-- Dashboard -->
+                    <h4 class="border-bottom pb-2 mb-3">Dashboard</h4>
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="bg-light p-3 rounded">
+                                <h5>Get Dashboard Statistics</h5>
+                                <p><span class="badge bg-success">GET</span> <code>/api/v1/dashboard/stats/</code></p>
+                                <p>Returns statistics for the authenticated user's school.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="bg-light p-3 rounded">
+                                <h5>Get Recent Activity</h5>
+                                <p><span class="badge bg-success">GET</span> <code>/api/v1/dashboard/recent_activity/</code></p>
+                                <p>Returns recent students and teachers added.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Schools -->
+                    <h4 class="border-bottom pb-2 mb-3">Schools</h4>
+                    <div class="table-responsive mb-4">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Method</th>
+                                    <th>Endpoint</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="badge bg-success">GET</span></td>
+                                    <td><code>/api/v1/schools/</code></td>
+                                    <td>List all schools for the authenticated user</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-primary">POST</span></td>
+                                    <td><code>/api/v1/schools/</code></td>
+                                    <td>Create a new school</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-success">GET</span></td>
+                                    <td><code>/api/v1/schools/{id}/</code></td>
+                                    <td>Retrieve a specific school</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-warning">PUT</span></td>
+                                    <td><code>/api/v1/schools/{id}/</code></td>
+                                    <td>Update a specific school</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-danger">DELETE</span></td>
+                                    <td><code>/api/v1/schools/{id}/</code></td>
+                                    <td>Delete a specific school</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Classes -->
+                    <h4 class="border-bottom pb-2 mb-3">Classes</h4>
+                    <div class="table-responsive mb-4">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Method</th>
+                                    <th>Endpoint</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="badge bg-success">GET</span></td>
+                                    <td><code>/api/v1/sclasses/</code></td>
+                                    <td>List all classes</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-primary">POST</span></td>
+                                    <td><code>/api/v1/sclasses/</code></td>
+                                    <td>Create a new class</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-success">GET</span></td>
+                                    <td><code>/api/v1/sclasses/{id}/</code></td>
+                                    <td>Retrieve a specific class</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-success">GET</span></td>
+                                    <td><code>/api/v1/sclasses/{id}/students/</code></td>
+                                    <td>Get all students in a class</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-success">GET</span></td>
+                                    <td><code>/api/v1/sclasses/{id}/teachers/</code></td>
+                                    <td>Get all teachers in a class</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Students -->
+                    <h4 class="border-bottom pb-2 mb-3">Students</h4>
+                    <div class="table-responsive mb-4">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Method</th>
+                                    <th>Endpoint</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="badge bg-success">GET</span></td>
+                                    <td><code>/api/v1/students/</code></td>
+                                    <td>List all students</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-primary">POST</span></td>
+                                    <td><code>/api/v1/students/</code></td>
+                                    <td>Create a new student</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-success">GET</span></td>
+                                    <td><code>/api/v1/students/{id}/</code></td>
+                                    <td>Retrieve a specific student</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-warning">PUT</span></td>
+                                    <td><code>/api/v1/students/{id}/</code></td>
+                                    <td>Update a specific student</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-danger">DELETE</span></td>
+                                    <td><code>/api/v1/students/{id}/</code></td>
+                                    <td>Delete a specific student</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Teachers -->
+                    <h4 class="border-bottom pb-2 mb-3">Teachers</h4>
+                    <div class="table-responsive mb-4">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Method</th>
+                                    <th>Endpoint</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="badge bg-success">GET</span></td>
+                                    <td><code>/api/v1/teachers/</code></td>
+                                    <td>List all teachers</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-primary">POST</span></td>
+                                    <td><code>/api/v1/teachers/</code></td>
+                                    <td>Create a new teacher</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-success">GET</span></td>
+                                    <td><code>/api/v1/teachers/{id}/</code></td>
+                                    <td>Retrieve a specific teacher</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-warning">PUT</span></td>
+                                    <td><code>/api/v1/teachers/{id}/</code></td>
+                                    <td>Update a specific teacher</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-danger">DELETE</span></td>
+                                    <td><code>/api/v1/teachers/{id}/</code></td>
+                                    <td>Delete a specific teacher</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Example Requests -->
+                    <h4 class="border-bottom pb-2 mb-3">Example Requests</h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Create a Student</h5>
+                            <pre class="bg-dark text-light p-3 rounded"><code>POST /api/v1/students/
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "age": 16,
+  "sclass": "uuid-of-class"
+}</code></pre>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Get Dashboard Stats</h5>
+                            <pre class="bg-dark text-light p-3 rounded"><code>GET /api/v1/dashboard/stats/
+
+Response:
+{
+  "total_schools": 1,
+  "total_classes": 5,
+  "total_students": 120,
+  "total_teachers": 15,
+  "class_details": [...]
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Integration -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">JavaScript Integration</h3>
+                </div>
+                <div class="card-body">
+                    <p>OrgSchool includes a JavaScript API client for easy integration:</p>
+                    <pre class="bg-dark text-light p-3 rounded"><code>// Initialize the API client
+const api = new OrgSchoolAPI();
+
+// Get dashboard statistics
+const stats = await api.getDashboardStats();
+
+// Create a new student
+const newStudent = await api.createStudent({
+    name: "Jane Smith",
+    age: 17,
+    sclass: "class-uuid"
+});
+
+// Get all students
+const students = await api.getStudents();</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
