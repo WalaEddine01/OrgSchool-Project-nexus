@@ -2,422 +2,257 @@
 
 A modern school management system built with Django and Django REST Framework. This is a complete refactored version of the original Flask-based OrgSchool application.
 
-## 🚀 Features
+## Features
 
 - **User Authentication**: Custom user model for school administrators
 - **School Management**: Create and manage schools
-- **Class Management**: Organize students into different classes (Class 01-04)
+- **Class Management**: Organize students into different classes
 - **Student Management**: Track student information including name, age, and class assignments
 - **Teacher Management**: Assign teachers to classes and maintain records
 - **REST API**: Full REST API with Django REST Framework
 - **Admin Interface**: Django admin panel for advanced management
-- **Responsive UI**: Modern Bootstrap 5-based interface
-- **Automatic Setup**: Classes are automatically created upon registration
+- **Responsive UI**: Modern Bootstrap-based interface
 
-  <p>
-    <a href="">🌐 Live Demo (not ready)</a> •
-    <a href="#-getting-started">🚀 Quick Start</a> •
-    <a href="API_DOC.md">📖 API Docs</a> •
-  </p>
+## Technology Stack
 
-  <p>
-    <a href="https://github.com/WalaEddine01">👨‍💻 GitHub</a> •
-    <a href="https://twitter.com/w1laaeddine">🐦 Twitter</a> •
-    <a href="https://www.linkedin.com/in/wala-eddine-boulebbina">💼 LinkedIn</a> •
-    <a href="https://walaeddine.tech">📄 portfolio</a>
-  </p>
-</div>
+- **Backend**: Django 4.2+
+- **Database**: SQLite (default), MySQL supported
+- **API**: Django REST Framework
+- **Frontend**: Bootstrap 5, Crispy Forms
+- **Authentication**: Django's built-in authentication system
 
----
-
-## 📋 Overview
-
-OrgSchool is a comprehensive **Student Management System (SMS)** designed to streamline the organization and administration of educational institutions. Built with modern web technologies, it provides a robust platform for managing students, teachers, classes, and administrative tasks efficiently.
-
-
-## 📑 Table of Contents
-
-- [📋 Overview](#-overview)
-- [✨ Features](#-features)
-- [🏗️ Architecture](#️-architecture)
-- [🛠️ Tech Stack](#️-tech-stack)
-- [🚀 Getting Started](#-getting-started)
-  - [📋 Prerequisites](#-prerequisites)
-  - [⚡ Quick Setup](#-quick-setup)
-  - [🐳 Docker Setup (Optional)](#-docker-setup-optional)
-- [💻 Usage](#-usage)
-- [📖 API Documentation](#-api-documentation)
-- [🧪 Testing](#-testing)
-- [🤝 Contributing](#-contributing)
-- [👥 Contributors](#-contributors)
-- [🆘 Support](#-support)
-- [📄 License](#-license)
-
----
-
-## ✨ Features
-
-### 🔐 **Security & Authentication**
-- **Secure User Authentication** with session management
-- **Password Hashing** using industry-standard algorithms
-- **Role-based Access Control** for different user types
-- **Data Validation** to prevent malicious inputs
-
-### 📊 **Management Capabilities**
-- **Student Management**: Add, edit, remove, and track student information
-- **Teacher Management**: Manage teacher profiles and assignments
-- **Class Management**: Organize students into classes and subjects
-- **School Administration**: Complete school data management
-
-### 🎨 **User Experience**
-- **Responsive Design** that works on all devices
-- **Intuitive User Interface** with modern styling
-- **Real-time Updates** for seamless user experience
-- **Interactive Dashboard** with key metrics and insights
-
-### 🔌 **API & Integration**
-- **RESTful API** for third-party integrations
-- **Swagger Documentation** for easy API exploration
-- **JSON Data Exchange** for modern web standards
-- **CORS Support** for cross-origin requests
-
----
-
-## 🏗️ Architecture
-
-OrgSchool follows a **Layered Architecture** pattern ensuring scalability and maintainability:
+## Project Structure
 
 ```
-┌─────────────────────────────────┐
-│     Presentation Layer          │
-│   (HTML, CSS, JavaScript)       │
-├─────────────────────────────────┤
-│     Application Layer           │
-│    (Flask Routes & Logic)       │
-├─────────────────────────────────┤
-│     Business Logic Layer        │
-│      (Models & Services)        │
-├─────────────────────────────────┤
-│     Data Access Layer           │
-│    (SQLAlchemy & MySQL)         │
-└─────────────────────────────────┘
+/home/wala/OrgSchool-Project-nexus2/
+├── manage.py                 # Django management script
+├── orgschool_django/         # Django project settings
+│   ├── __init__.py
+│   ├── settings.py          # Main settings file
+│   ├── urls.py              # Main URL configuration
+│   └── wsgi.py              # WSGI configuration
+├── schools/                  # Main Django app
+│   ├── models.py            # Database models
+│   ├── views.py             # View functions and classes
+│   ├── forms.py             # Django forms
+│   ├── admin.py             # Admin configuration
+│   ├── urls.py              # App URL configuration
+│   └── management/commands/ # Custom management commands
+├── restapi/                  # REST API app
+│   ├── views.py             # API viewsets
+│   ├── serializers.py       # API serializers
+│   └── urls.py              # API URL configuration
+├── templates/schools/        # Django templates
+├── static/                   # Static files (CSS, JS, images)
+└── requirements_django.txt   # Python dependencies
 ```
 
+## Installation and Setup
 
----
+### 1. Prerequisites
+- Python 3.8+
+- pip
+- Virtual environment (recommended)
 
-## 🛠️ Tech Stack
-
-### **Backend**
-- **Python 3.8+** - Core programming language
-- **Flask 2.0+** - Web framework
-- **SQLAlchemy** - ORM for database operations
-- **MySQL 8.0+** - Primary database
-- **Flask-Login** - User session management
-- **Flask-WTF** - Form handling and validation
-
-### **Frontend**
-- **HTML5** - Markup language
-- **CSS3** - Styling with modern features
-- **JavaScript (ES6+)** - Interactive functionality
-- **Bootstrap 5** - Responsive UI framework
-- **jQuery** - DOM manipulation and AJAX
-
-### **Development & Deployment**
-- **Git** - Version control
-- **Virtual Environment** - Dependency isolation
-- **Swagger/Flasgger** - API documentation
-- **CORS** - Cross-origin resource sharing
-
----
-
-## 🚀 Getting Started
-
-### 📋 Prerequisites
-
-Before you begin, ensure you have the following installed:
-
-- **Python 3.8 or higher** ([Download Python](https://python.org/downloads/))
-- **MySQL 8.0 or higher** ([Download MySQL](https://mysql.com/downloads/))
-- **Git** ([Download Git](https://git-scm.com/downloads))
-- **pip** (usually comes with Python)
-
-### ⚡ Quick Setup
-
-#### 1. **Clone the Repository**
+### 2. Install Dependencies
 ```bash
-git clone https://github.com/WalaEddine01/OrgSchool-project-nexus-.git
-cd OrgSchool-project-nexus 
+# Install Django dependencies
+pip install -r requirements_django.txt
 ```
 
-#### 2. **Set Up Virtual Environment**
+### 3. Database Setup
 ```bash
-# Create virtual environment
-python3 -m venv .venv
+# Run migrations
+python manage.py makemigrations
+python manage.py migrate
 
-# Activate virtual environment
-# On Linux/Mac:
-source .venv/bin/activate
-# On Windows:
-# .venv\Scripts\activate
+# Create sample data (optional)
+python manage.py create_sample_data
 ```
 
-#### 3. **Install Dependencies**
+### 4. Create Superuser (optional)
 ```bash
-pip install -r requirements.txt
+python manage.py createsuperuser
 ```
 
-#### 4. **Configure Database**
+### 5. Run the Development Server
 ```bash
-# Start MySQL service
-sudo systemctl start mysql  # On Linux
-# brew services start mysql  # On Mac
-# net start mysql            # On Windows
-
-# Set up database
-sudo mysql < setup/setup_mysql_dev.sql
+python manage.py runserver
 ```
 
-#### 5. **Set Environment Variables** (Optional)
-```bash
-export ORG_TYPE_STORAGE=db
-export ORG_API_HOST=0.0.0.0
-export ORG_API_PORT=5001
-```
+The application will be available at `http://127.0.0.1:8000/`
 
-#### 6. **Initialize Database Tables**
-```bash
-python3 -c "
-from models import storage
-storage.reload()
-"
-```
+## Usage
 
-#### 7. **Start the Application**
+### Web Interface
 
-**Frontend (Web Interface):**
-```bash
-python3 app.py
-```
-*Access at: [http://localhost:5002](http://localhost:5002)*
+1. **Homepage**: Visit `http://127.0.0.1:8000/` to see the landing page
+2. **Register**: Create a new school administrator account
+3. **Login**: Access your school dashboard
+4. **Manage**: Use the web interface to manage classes, students, and teachers
 
-**API Server:**
-```bash
-python3 -m api.v1.app
-```
-*Access at: [http://localhost:5001](http://localhost:5001)*
+### Admin Interface
 
-**API Documentation:**
-*Access Swagger docs at: [http://localhost:5001/apidocs](http://localhost:5001/apidocs)*
+Visit `http://127.0.0.1:8000/admin/` to access the Django admin panel.
 
-### 🐳 Docker Setup (Optional)
+Default admin credentials (if using sample data):
+- Email: `admin@orgschool.com`
+- Password: `admin123`
 
-For a containerized setup, you can use Docker:
+### REST API
+
+The REST API is available at `http://127.0.0.1:8000/api/v1/`
+
+#### Available Endpoints:
+
+- `/api/v1/admins/` - Admin users (read-only)
+- `/api/v1/schools/` - Schools
+- `/api/v1/sclasses/` - Classes
+- `/api/v1/students/` - Students
+- `/api/v1/teachers/` - Teachers
+
+#### API Authentication
+
+The API uses session-based authentication. You need to be logged in through the web interface to access the API.
+
+#### Example API Usage:
 
 ```bash
-# Build and run with Docker Compose
-docker-compose up --build
+# Get all students (requires authentication)
+curl -X GET http://127.0.0.1:8000/api/v1/students/ \
+  -H "Cookie: sessionid=your_session_id"
 
-# Or run individual services
-docker build -t orgschool .
-docker run -p 5002:5002 orgschool
-```
-
----
-
-## 💻 Usage
-
-### 🔐 **Admin Registration & Login**
-1. Navigate to the registration page
-2. Create an admin account with school details
-3. Login with your credentials
-4. Access the admin dashboard
-
-### 🏫 **School Management**
-- **Create Schools**: Set up your educational institution
-- **Manage Classes**: Organize students by grade and section
-- **Track Students**: Add, edit, and monitor student information
-- **Teacher Assignment**: Assign teachers to classes and subjects
-
-### 📊 **Dashboard Features**
-- **Real-time Statistics**: View student and teacher counts
-- **Quick Actions**: Rapidly add new students or teachers
-- **Data Overview**: Get insights into school operations
-
----
-
-## 📖 API Documentation
-
-OrgSchool provides a comprehensive RESTful API for integration with external systems:
-
-- **📚 Full API Documentation**: [API_DOC.md](API_DOC.md)
-- **🔍 Interactive Swagger Docs**: [http://localhost:5001/apidocs](http://localhost:5001/apidocs)
-
-### Quick API Examples:
-
-**Get API Status:**
-```bash
-curl http://localhost:5001/api/v1/status
-```
-
-**Create New Admin:**
-```bash
-curl -X POST http://localhost:5001/api/v1/admins \
+# Create a new student
+curl -X POST http://127.0.0.1:8000/api/v1/students/ \
   -H "Content-Type: application/json" \
+  -H "Cookie: sessionid=your_session_id" \
   -d '{
-    "email": "admin@school.com",
-    "password": "securepassword",
-    "school_name": "Example School"
+    "name": "New Student",
+    "age": 15,
+    "sclass": "class_uuid_here"
   }'
 ```
 
-**Get All Students:**
+## Key Differences from Flask Version
+
+### 1. Models
+- **Django ORM**: Replaced SQLAlchemy with Django's ORM
+- **UUID Primary Keys**: All models use UUID primary keys
+- **Custom User Model**: Uses Django's AbstractUser for administrators
+- **Better Relationships**: Improved foreign key relationships
+
+### 2. Views
+- **Class-Based Views**: Utilizes Django's generic views for CRUD operations
+- **Function-Based Views**: For custom logic and compatibility
+- **Built-in Authentication**: Uses Django's authentication decorators
+
+### 3. Forms
+- **Django Forms**: Replaced WTForms with Django forms
+- **Crispy Forms**: Enhanced form rendering with Bootstrap styling
+- **Validation**: Built-in Django form validation
+
+### 4. Templates
+- **Django Template Language**: Replaced Jinja2 with Django templates
+- **Bootstrap 5**: Modern responsive design
+- **Template Inheritance**: Better template organization
+
+### 5. API
+- **Django REST Framework**: Professional REST API implementation
+- **Viewsets**: Automatic CRUD operations
+- **Serializers**: Proper data serialization
+- **Browsable API**: Built-in API documentation
+
+### 6. Administration
+- **Django Admin**: Powerful built-in admin interface
+- **Custom Admin**: Customized admin panels for all models
+- **User Management**: Built-in user management system
+
+## Configuration
+
+### Database Configuration
+
+By default, the application uses SQLite. To use MySQL, update the `DATABASES` setting in `orgschool_django/settings.py`:
+
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'orgschool_db',
+        'USER': 'your_username',
+        'PASSWORD': 'your_password',
+        'HOST': 'localhost',
+        'PORT': '3306',
+    }
+}
+```
+
+### Environment Variables
+
+You can use environment variables for sensitive settings:
+
 ```bash
-curl http://localhost:5001/api/v1/sclasses/{class_id}/students
+export SECRET_KEY='your-secret-key'
+export DEBUG=False
+export DATABASE_URL='mysql://user:password@localhost/dbname'
 ```
 
----
+## Development
 
-## 🧪 Testing
-
-Run the test suite to ensure everything works correctly:
-
+### Running Tests
 ```bash
-# Run all tests
-python3 -m pytest tests/
-
-# Run specific test file
-python3 -m pytest tests/test_models/
-
-# Run with coverage
-python3 -m pytest --cov=models tests/
+python manage.py test
 ```
 
-### Test Coverage:
-- **Unit Tests**: Model validation and business logic
-- **Integration Tests**: Database operations
-- **API Tests**: Endpoint functionality
-- **UI Tests**: Form validation and user interactions
-
----
-
-## 🤝 Contributing
-
-We welcome contributions from the community! Here's how you can help make OrgSchool better:
-
-### 🐛 **Bug Reports**
-When filing an issue, please include:
-- **Clear Description**: What happened vs. what you expected
-- **Steps to Reproduce**: Detailed steps to recreate the issue
-- **Environment**: OS, Python version, browser (if applicable)
-- **Screenshots**: If relevant, include visual evidence
-
-### ✨ **Feature Requests**
-- Check existing issues to avoid duplicates
-- Clearly describe the feature and its benefits
-- Provide examples of how it would be used
-
-### 🔧 **Pull Requests**
-1. **Fork** the repository
-2. **Create** a feature branch: `git checkout -b feature/amazing-feature`
-3. **Commit** your changes: `git commit -m 'Add amazing feature'`
-4. **Push** to the branch: `git push origin feature/amazing-feature`
-5. **Open** a Pull Request
-
-### 📝 **Development Guidelines**
-- Follow **PEP 8** style guidelines for Python code
-- Add **tests** for new features
-- Update **documentation** as needed
-- Ensure **backwards compatibility** when possible
-
----
-
-## 👥 Contributors
-
-<div align="center">
-  <table>
-    <tr>
-      <td align="center">
-        <a href="https://github.com/WalaEddine01">
-          <img src="https://avatars.githubusercontent.com/u/135642375?s=150&v=4" width="150px;" alt="Wala Eddine B"/>
-          <br />
-          <sub><b>Wala Eddine Boulebbina</b></sub>
-        </a>
-        <br />
-        <sub>🏗️ Project Creator & Lead Developer</sub>
-        <br />
-        <a href="https://github.com/WalaEddine01" title="GitHub">🐙</a>
-        <a href="https://linkedin.com/in/wala-eddine-boulebbina" title="LinkedIn">💼</a>
-        <a href="https://twitter.com/w1laaeddine" title="Twitter">🐦</a>
-      </td>
-    </tr>
-  </table>
-</div>
-
-### 🙏 **Special Thanks**
-- **Inspiration**: [ostad.education.gov.dz](https://ostad.education.gov.dz/) - Algerian Ministry of Education platform
-- **Community**: All contributors and users who provide feedback and suggestions
-
----
-
-## 🆘 Support
-
-Need help? We're here for you!
-
-### 📧 **Contact Options**
-- **📨 Email**: [walaaeddine33@gmail.com](mailto:walaaeddine33@gmail.com)
-- **💬 GitHub Discussions**: [Project Discussions](https://github.com/WalaEddine01/OrgSchool-project-nexus /discussions)
-- **🐛 Issues**: [Report a Bug](https://github.com/WalaEddine01/OrgSchool-project-nexus /issues)
-
-### 📚 **Resources**
-- **📖 API Documentation**: [API_DOC.md](API_DOC.md)
-- **🌐 Live Demo**: [walaeddine.tech](http://walaeddine.tech)
-
-### 💝 **Support the Project**
-If you find OrgSchool helpful, consider:
-- ⭐ **Starring** the repository
-- 🐛 **Reporting** bugs or issues
-- 💡 **Suggesting** new features
-- 📢 **Sharing** with others
-- 🤝 **Contributing** code or documentation
-
----
-
-## 📄 License
-
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
-
-```
-MIT License
-
-Copyright (c) 2024 Wala Eddine Boulebbina
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+### Creating New Migrations
+```bash
+python manage.py makemigrations schools
+python manage.py migrate
 ```
 
----
+### Collecting Static Files (for production)
+```bash
+python manage.py collectstatic
+```
 
-<div align="center">
-  <h3>🌟 Star this repository if you found it helpful!</h3>
-  <p>
-    <a href="https://github.com/WalaEddine01/OrgSchool-project-nexus /stargazers">
-      <img src="https://img.shields.io/github/stars/WalaEddine01/OrgSchool-project-nexus ?style=social" alt="GitHub stars">
-    </a>
-    <a href="https://github.com/WalaEddine01/OrgSchool-project-nexus /network/members">
-      <img src="https://img.shields.io/github/forks/WalaEddine01/OrgSchool-project-nexus ?style=social" alt="GitHub forks">
-    </a>
-  </p>
-  
-  <p><em>Made with ❤️ by <a href="https://github.com/WalaEddine01">Wala Eddine Boulebbina</a></em></p>
-  
-  <sub>🚀 Building the future of education management, one commit at a time.</sub>
-</div>
+## Production Deployment
 
+For production deployment, consider:
+
+1. Set `DEBUG = False` in settings
+2. Configure a production database (PostgreSQL recommended)
+3. Use a production web server (Gunicorn + Nginx)
+4. Set up proper static file serving
+5. Configure environment variables for sensitive data
+6. Set up SSL/HTTPS
+
+## Migration from Flask Version
+
+If you're migrating data from the Flask version:
+
+1. Export data from the Flask application
+2. Create a custom Django management command to import the data
+3. Map the SQLAlchemy models to Django models
+4. Run the import command
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests for new features
+5. Submit a pull request
+
+## License
+
+This project maintains the same license as the original Flask version.
+
+## Support
+
+For issues and questions:
+1. Check the Django documentation
+2. Review the original Flask version for business logic reference
+3. Create an issue in the repository
+
+## Credits
+
+This Django version is a complete refactor of the original Flask-based OrgSchool application, maintaining the same core functionality while leveraging Django's powerful features and conventions.
