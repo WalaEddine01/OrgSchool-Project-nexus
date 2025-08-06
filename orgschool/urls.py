@@ -1,5 +1,5 @@
 """
-URL configuration for orgschool_django project.
+URL configuration for orgschool project.
 """
 from django.contrib import admin
 from django.urls import path, include, re_path
