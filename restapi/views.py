@@ -1,5 +1,6 @@
 """
 Django REST API views for the OrgSchool application
+Defines API endpoints for admins, schools, classes, students, and teachers.
 """
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
@@ -17,43 +18,38 @@ from .serializers import (
 
 class AdminViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    ViewSet for Admin model (read-only)
-    
-    Provides read-only access to admin data. Users can only access their own admin information.
+    Read-only API for Admin model. Only returns the current user's admin info.
     """
     queryset = Admin.objects.all()
     serializer_class = AdminSerializer
     permission_classes = [IsAuthenticated]
     
     def get_queryset(self):
-        # Users can only see their own admin data
+        # Only return the current admin
         return Admin.objects.filter(id=self.request.user.id)
 
 
 class SchoolViewSet(viewsets.ModelViewSet):
     """
-    ViewSet for School model
-    
-    Provides CRUD operations for schools. Users can only manage their own schools.
+    CRUD API for School model. Only allows access to the user's schools.
     """
     queryset = School.objects.all()
     serializer_class = SchoolSerializer
     permission_classes = [IsAuthenticated]
     
     def get_queryset(self):
-        # Users can only see their own schools
+        # Only return schools for the current admin
         return School.objects.filter(admin=self.request.user)
     
     def perform_create(self, serializer):
+        # Set admin to current user on create
         serializer.save(admin=self.request.user)
 
 
 class SClassViewSet(viewsets.ModelViewSet):
     """
-    ViewSet for SClass (School Class) model
-    
-    Provides CRUD operations for school classes. Users can only manage classes 
-    from their own schools. Includes custom actions to get students and teachers.
+    CRUD API for SClass model. Only allows access to classes in the user's schools.
+    Includes custom actions for students and teachers in a class.
     """
     queryset = SClass.objects.all()
     serializer_class = SClassSerializer
@@ -99,9 +95,7 @@ class SClassViewSet(viewsets.ModelViewSet):
 
 class StudentViewSet(viewsets.ModelViewSet):
     """
-    ViewSet for Student model
-    
-    Provides CRUD operations for students. Users can only manage their own students.
+    CRUD API for Student model. Only allows access to the user's students.
     """
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
@@ -117,9 +111,7 @@ class StudentViewSet(viewsets.ModelViewSet):
 
 class TeacherViewSet(viewsets.ModelViewSet):
     """
-    ViewSet for Teacher model
-    
-    Provides CRUD operations for teachers. Users can only manage their own teachers.
+    CRUD API for Teacher model. Only allows access to the user's teachers.
     """
     queryset = Teacher.objects.all()
     serializer_class = TeacherSerializer

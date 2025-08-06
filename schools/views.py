@@ -1,5 +1,6 @@
 """
 Django views for the OrgSchool application
+Handles web pages, registration, login, and CRUD for schools, classes, students, and teachers.
 """
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate
@@ -14,14 +15,14 @@ from .forms import AdminRegistrationForm, AdminLoginForm, StudentForm, TeacherFo
 
 def about_view(request):
     """
-    About page view
+    Render the about page.
     """
     return render(request, 'schools/about.html')
 
 
 def home_view(request):
     """
-    Home page view
+    Render the home page. Shows school name if user is authenticated.
     """
     context = {}
     if request.user.is_authenticated:
@@ -35,7 +36,7 @@ def home_view(request):
 
 def register_view(request):
     """
-    Registration view
+    Handle admin registration form.
     """
     if request.method == 'POST':
         form = AdminRegistrationForm(request.POST)
@@ -51,13 +52,16 @@ def register_view(request):
 
 class ClassListView(LoginRequiredMixin, ListView):
     """
-    List view for classes
+    List all classes for the logged-in admin.
     """
     model = SClass
     template_name = 'schools/class_list.html'
     context_object_name = 'classes'
     
     def get_queryset(self):
+        """
+        Get the queryset of classes for the logged-in admin's school.
+        """
         try:
             school = School.objects.get(admin=self.request.user)
             return SClass.objects.filter(school=school)
@@ -68,7 +72,7 @@ class ClassListView(LoginRequiredMixin, ListView):
 @login_required
 def class_detail_view(request, class_id=None, class_name=None):
     """
-    Detail view for a specific class
+    Detail view for a specific class.
     """
     if class_id:
         sclass = get_object_or_404(SClass, id=class_id, school__admin=request.user)
@@ -98,19 +102,22 @@ def class_detail_view(request, class_id=None, class_name=None):
 
 class StudentListView(LoginRequiredMixin, ListView):
     """
-    List view for students
+    List view for students under the logged-in admin.
     """
     model = Student
     template_name = 'schools/student_list.html'
     context_object_name = 'students'
     
     def get_queryset(self):
+        """
+        Get the queryset of students for the logged-in admin.
+        """
         return Student.objects.filter(admin=self.request.user)
 
 
 class StudentCreateView(LoginRequiredMixin, CreateView):
     """
-    Create view for students
+    Create view for students.
     """
     model = Student
     form_class = StudentForm
@@ -118,18 +125,24 @@ class StudentCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('schools:student_list')
     
     def get_form_kwargs(self):
+        """
+        Pass the logged-in admin to the form.
+        """
         kwargs = super().get_form_kwargs()
         kwargs['admin'] = self.request.user
         return kwargs
     
     def form_valid(self, form):
+        """
+        Set the admin instance before saving the form.
+        """
         form.instance.admin = self.request.user
         return super().form_valid(form)
 
 
 class StudentUpdateView(LoginRequiredMixin, UpdateView):
     """
-    Update view for students
+    Update view for students.
     """
     model = Student
     form_class = StudentForm
@@ -137,9 +150,15 @@ class StudentUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('schools:student_list')
     
     def get_queryset(self):
+        """
+        Get the queryset of students for the logged-in admin.
+        """
         return Student.objects.filter(admin=self.request.user)
     
     def get_form_kwargs(self):
+        """
+        Pass the logged-in admin to the form.
+        """
         kwargs = super().get_form_kwargs()
         kwargs['admin'] = self.request.user
         return kwargs
@@ -147,31 +166,37 @@ class StudentUpdateView(LoginRequiredMixin, UpdateView):
 
 class StudentDeleteView(LoginRequiredMixin, DeleteView):
     """
-    Delete view for students
+    Delete view for students.
     """
     model = Student
     template_name = 'schools/student_confirm_delete.html'
     success_url = reverse_lazy('schools:student_list')
     
     def get_queryset(self):
+        """
+        Get the queryset of students for the logged-in admin.
+        """
         return Student.objects.filter(admin=self.request.user)
 
 
 class TeacherListView(LoginRequiredMixin, ListView):
     """
-    List view for teachers
+    List view for teachers under the logged-in admin.
     """
     model = Teacher
     template_name = 'schools/teacher_list.html'
     context_object_name = 'teachers'
     
     def get_queryset(self):
+        """
+        Get the queryset of teachers for the logged-in admin.
+        """
         return Teacher.objects.filter(admin=self.request.user)
 
 
 class TeacherCreateView(LoginRequiredMixin, CreateView):
     """
-    Create view for teachers
+    Create view for teachers.
     """
     model = Teacher
     form_class = TeacherForm
@@ -179,18 +204,24 @@ class TeacherCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('schools:teacher_list')
     
     def get_form_kwargs(self):
+        """
+        Pass the logged-in admin to the form.
+        """
         kwargs = super().get_form_kwargs()
         kwargs['admin'] = self.request.user
         return kwargs
     
     def form_valid(self, form):
+        """
+        Set the admin instance before saving the form.
+        """
         form.instance.admin = self.request.user
         return super().form_valid(form)
 
 
 class TeacherUpdateView(LoginRequiredMixin, UpdateView):
     """
-    Update view for teachers
+    Update view for teachers.
     """
     model = Teacher
     form_class = TeacherForm
@@ -198,9 +229,15 @@ class TeacherUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('schools:teacher_list')
     
     def get_queryset(self):
+        """
+        Get the queryset of teachers for the logged-in admin.
+        """
         return Teacher.objects.filter(admin=self.request.user)
     
     def get_form_kwargs(self):
+        """
+        Pass the logged-in admin to the form.
+        """
         kwargs = super().get_form_kwargs()
         kwargs['admin'] = self.request.user
         return kwargs
@@ -208,11 +245,14 @@ class TeacherUpdateView(LoginRequiredMixin, UpdateView):
 
 class TeacherDeleteView(LoginRequiredMixin, DeleteView):
     """
-    Delete view for teachers
+    Delete view for teachers.
     """
     model = Teacher
     template_name = 'schools/teacher_confirm_delete.html'
     success_url = reverse_lazy('schools:teacher_list')
     
     def get_queryset(self):
+        """
+        Get the queryset of teachers for the logged-in admin.
+        """
         return Teacher.objects.filter(admin=self.request.user)

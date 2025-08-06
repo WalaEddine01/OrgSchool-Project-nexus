@@ -1,5 +1,6 @@
 """
 Django forms for the OrgSchool application
+Defines forms for admin registration, login, and CRUD for students, teachers, and classes.
 """
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -13,7 +14,8 @@ Admin = get_user_model()
 
 class AdminRegistrationForm(UserCreationForm):
     """
-    Registration form for school administrators
+    Registration form for school administrators.
+    Extends Django's UserCreationForm.
     """
     email = forms.EmailField(required=True)
     school_name = forms.CharField(max_length=128, required=True)
@@ -38,18 +40,21 @@ class AdminRegistrationForm(UserCreationForm):
         )
     
     def clean_email(self):
+        # Ensure email is unique
         email = self.cleaned_data.get('email')
         if Admin.objects.filter(email=email).exists():
             raise forms.ValidationError("A user with this email already exists.")
         return email
     
     def clean_school_name(self):
+        # Ensure school name is unique
         school_name = self.cleaned_data.get('school_name')
         if Admin.objects.filter(school_name=school_name).exists():
             raise forms.ValidationError("That school name is taken. Please choose a different one.")
         return school_name
     
     def save(self, commit=True):
+        # Save the admin and create the school
         user = super().save(commit=False)
         user.email = self.cleaned_data['email']
         user.school_name = self.cleaned_data['school_name']

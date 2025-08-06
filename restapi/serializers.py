@@ -1,5 +1,6 @@
 """
 Django REST API serializers for the OrgSchool application
+Defines serializers for Admin, School, SClass, Student, and Teacher models.
 """
 from rest_framework import serializers
 from schools.models import Admin, School, SClass, Student, Teacher
@@ -7,7 +8,7 @@ from schools.models import Admin, School, SClass, Student, Teacher
 
 class AdminSerializer(serializers.ModelSerializer):
     """
-    Serializer for Admin model
+    Serializes Admin model for API output.
     """
     class Meta:
         model = Admin
@@ -17,7 +18,7 @@ class AdminSerializer(serializers.ModelSerializer):
 
 class SchoolSerializer(serializers.ModelSerializer):
     """
-    Serializer for School model
+    Serializes School model. Includes admin email for reference.
     """
     admin_email = serializers.EmailField(source='admin.email', read_only=True)
     
@@ -29,7 +30,7 @@ class SchoolSerializer(serializers.ModelSerializer):
 
 class SClassSerializer(serializers.ModelSerializer):
     """
-    Serializer for SClass model
+    Serializes SClass model. Adds school name and student/teacher counts.
     """
     school_name = serializers.CharField(source='school.name', read_only=True)
     student_count = serializers.SerializerMethodField()
@@ -41,15 +42,17 @@ class SClassSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'created_at', 'updated_at']
     
     def get_student_count(self, obj):
+        # Return number of students in class
         return obj.students.count()
     
     def get_teacher_count(self, obj):
+        # Return number of teachers in class
         return obj.teachers.count()
 
 
 class StudentSerializer(serializers.ModelSerializer):
     """
-    Serializer for Student model
+    Serializes Student model. Adds class and school names.
     """
     sclass_name = serializers.CharField(source='sclass.name', read_only=True)
     school_name = serializers.CharField(source='sclass.school.name', read_only=True)
@@ -62,10 +65,10 @@ class StudentSerializer(serializers.ModelSerializer):
 
 class TeacherSerializer(serializers.ModelSerializer):
     """
-    Serializer for Teacher model
+    Serializes Teacher model. Adds class and school names.
     """
-    sclass_name = serializers.CharField(source='sclass.name', read_only=True)
-    school_name = serializers.CharField(source='sclass.school.name', read_only=True)
+    sclass_name = serializers.CharField(source='sclass.name', read_only=True)  # Class name
+    school_name = serializers.CharField(source='sclass.school.name', read_only=True)  # School name
     
     class Meta:
         model = Teacher

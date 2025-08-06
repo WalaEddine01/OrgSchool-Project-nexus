@@ -1,5 +1,6 @@
 """
 Django admin configuration for the OrgSchool application
+Registers models and customizes admin interface for Admin, School, SClass, Student, and Teacher.
 """
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
@@ -9,7 +10,7 @@ from .models import Admin, School, SClass, Student, Teacher
 @admin.register(Admin)
 class AdminUserAdmin(UserAdmin):
     """
-    Admin configuration for the Admin model
+    Custom admin panel for Admin model (school administrators).
     """
     list_display = ['username', 'email', 'school_name', 'is_staff', 'date_joined']
     list_filter = ['is_staff', 'is_superuser', 'is_active', 'date_joined']
@@ -27,7 +28,7 @@ class AdminUserAdmin(UserAdmin):
 @admin.register(School)
 class SchoolAdmin(admin.ModelAdmin):
     """
-    Admin configuration for the School model
+    Admin panel configuration for School model.
     """
     list_display = ['name', 'admin', 'created_at']
     list_filter = ['created_at']
@@ -37,7 +38,7 @@ class SchoolAdmin(admin.ModelAdmin):
 @admin.register(SClass)
 class SClassAdmin(admin.ModelAdmin):
     """
-    Admin configuration for the SClass model
+    Admin panel configuration for SClass model.
     """
     list_display = ['name', 'school', 'get_student_count', 'get_teacher_count', 'created_at']
     list_filter = ['school', 'created_at']
